@@ -179,9 +179,10 @@ export function postUser(payload) {
   return async function(dispatch) {
     try {
       const response = await axios.post(`${VITE_HOST}/api/users`, payload);
+      console.log(response);
       dispatch({
         type: POST_USER,
-        payload: response.data,
+        payload: response,
       });
     } catch (error) {
       console.log(error);
@@ -214,15 +215,11 @@ export const addtoCart = (product) => {
 
 export function postShoppingCart(payload) {
   return async function(dispatch) {
-    try {
-      const response = await axios.post(`${VITE_HOST}/api/cart`, payload);
-      dispatch({
-        type: POST_SHOPPING_CART,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await axios.post(`${VITE_HOST}/api/cart`, payload);
+    dispatch({
+      type: POST_SHOPPING_CART,
+      payload: response.data,
+    });
   };
 }
 

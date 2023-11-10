@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyChkXHSFLbyH3DNVZIo_wcAKTpCJ5-dzzg",
-  authDomain: "sweet-home-a37d2.firebaseapp.com",
-  projectId: "sweet-home-a37d2",
-  storageBucket: "sweet-home-a37d2.appspot.com",
-  messagingSenderId: "176297415072",
-  appId: "1:176297415072:web:903daeb9aba9f8df8b94c5",
-  measurementId: "G-EP6C10NVF2",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);

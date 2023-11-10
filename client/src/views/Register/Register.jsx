@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -7,7 +8,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { Alert } from "../Login/Alert.jsx";
 import emailjs from "emailjs-com";
-var messi = "https://media.radio10.com.ar/p/1eb8ef09699afe339031aa3c6b6566ba/adjuntos/220/imagenes/040/367/0040367760/730x0/smart/messi-campeon-del-mundojpg.jpg";
+var messi =
+  "https://media.radio10.com.ar/p/1eb8ef09699afe339031aa3c6b6566ba/adjuntos/220/imagenes/040/367/0040367760/730x0/smart/messi-campeon-del-mundojpg.jpg";
 
 export function Register() {
   const dispatch = useDispatch();
@@ -33,11 +35,16 @@ export function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    emailjs
-    .sendForm("service_ndc6jsv", "template_snuctui", event.target, "_6alTseIIZ36HGhIC")
+    emailjs.sendForm(
+      "service_ndc6jsv",
+      "template_snuctui",
+      event.target,
+      "_6alTseIIZ36HGhIC"
+    );
 
     try {
       const response = await singup(user.email, user.password);
+      console.log(response);
       const reUser = {
         name: user.name,
         email: user.email,
@@ -46,9 +53,9 @@ export function Register() {
         uid: response.user.uid,
         photoURL: response.user.photoURL || messi,
       };
+      console.log(reUser);
       dispatch(postUser(reUser));
-  
-      
+
       if (user.password !== user.confirmPassword) {
         setError("The passwords are different");
         return;
@@ -98,7 +105,6 @@ export function Register() {
         uid: response.user.uid,
         photoURL: response.user.photoURL,
       };
-      console.log(userGoogle);
       dispatch(postUser(userGoogle));
 
       toast.success("Welcome to Sweet Home");
@@ -122,9 +128,7 @@ export function Register() {
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded px-4 pt-4 pb-2 mb-2"
         >
-          <h1 className="font-bold text-lg text-center mb-4">
-            Register
-          </h1>
+          <h1 className="font-bold text-lg text-center mb-4">Register</h1>
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -210,9 +214,10 @@ export function Register() {
           </div>
 
           <button
+            onSubmit={handleSubmit}
             type="submit"
             className={`bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full flex items-center justify-center ${
-              !error ? "opacity-50 cursor-not-allowed" : ""
+              error ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={!!error}
           >

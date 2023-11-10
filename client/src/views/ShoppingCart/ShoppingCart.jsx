@@ -7,7 +7,6 @@ import Select from "react-select";
 import { AiOutlineUser } from "react-icons/ai";
 import { BsTelephone, BsHouse } from "react-icons/bs";
 import { useAuth } from "../../context/authContex";
-import { useNavigate } from "react-router-dom";
 import { removefromCart, addtoCart, removeOneFromCart, postOrder, getUserByUid, removeAllFromCart } from "../../Redux/actions/actions";
 import { getTotalPrice, calculateTotal } from "../../utils/totalprice";
 import fedexLogo from "../../assets/image/Fedex-logo.jpeg";
@@ -159,15 +158,16 @@ const Shopping = () => {
   const stateValidate = (input) => {
     if (!input.state) {
       setErrors({ ...errors, state: "*State is required." });
-    } else if (!/^[a-zA-Z]+$/.test(input.state)) {
+    } else if (!/^[a-zA-Z\s]+$/.test(input.state)) {
       setErrors({
         ...errors,
-        state: "*No numbers or special characters are allowed in this field.",
+        state: "*Only letters and spaces are allowed in this field.",
       });
     } else {
       setErrors({ ...errors, state: "" });
     }
   };
+  
 
   useEffect(() => {
     if (user) {
