@@ -35,8 +35,8 @@ import {
 } from "../../Redux/action-types/action-types";
 import { toast } from "react-toastify";
 
-const VITE_HOST = "http://localhost:3001";
-//  const VITE_HOST = import.meta.env.VITE_HOST;
+// const VITE_HOST = "http://localhost:3001";
+const VITE_HOST = import.meta.env.VITE_HOST;
 
 //--//--//--//--//--//  PRODUCT ACTIONS  //--//--//--//--//--//
 
