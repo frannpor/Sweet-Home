@@ -12,13 +12,10 @@ const Profile = () => {
   const { user } = useAuth();
   const [selectedImage, setSelectedImage] = useState(null);
   const [firstName, setFirstName] = useState("");
-  const [, setLastName] = useState("");
   const [, setEmail] = useState("");
-  const [, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [completeUser, setCompleteUser] = useState({});
-  const [, setCloudinaryURL] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -41,7 +38,6 @@ const Profile = () => {
 
   const handleCancel = () => {
     setFirstName("");
-    setLastName("");
     setEmail("");
     setSelectedImage(null);
   };
@@ -59,27 +55,48 @@ const Profile = () => {
       }
     );
     const result = await res.json();
-    setImage(result.secure_url);
-    const hardcodeJson = { photoURL: result.secure_url, name: firstName };
-    dispatch(updateUser(hardcodeJson, completeUser._id));
-    setCloudinaryURL(result.secure_url);
     setLoading(false);
+    return result;
   };
 
-  const handleName = () => {
+  const updateName = async () => {
     const name = {
       name: firstName,
     };
-    dispatch(updateUser(name, completeUser._id));
+    await dispatch(updateUser(name, completeUser._id));
+  };
+
+  const updateImage = async () => {
+    if (selectedImage) {
+      const result = await uploadImage(selectedImage);
+      let updatedUser;
+      if (firstName !== completeUser.name && firstName !== "") {
+        updatedUser = {
+          photoURL: result.secure_url,
+          name: firstName,
+        };
+      } else {
+        updatedUser = {
+          photoURL: result.secure_url,
+          name: completeUser.name,
+        };
+      }
+
+      await dispatch(updateUser(updatedUser, completeUser._id));
+    }
   };
 
   const handleSave = async () => {
-    if (selectedImage) {
-      await uploadImage(selectedImage);
+    setLoading(true);
+    try {
+      await Promise.all([updateName(), updateImage()]);
+      setLoading(false);
+      navigate("/");
+      window.location.reload();
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
     }
-    handleName();
-    navigate("/");
-    window.location.reload();
   };
 
   return (

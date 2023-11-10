@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
 
   const singup = async (email, password) => {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(credential);
     return credential;
   };
 

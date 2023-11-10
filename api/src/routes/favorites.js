@@ -1,24 +1,19 @@
 import { Router } from "express";
 
-// ? Controllers 
-import getFavorites from "../controllers/favorites/getFavorites.js"
-import postFavorites from "../controllers/favorites/postFavorites.js";
-import deleteFavorites from "../controllers/favorites/deleteProductFavoriteById.js";
-import getFavoritesById from "../controllers/favorites/getFavoritesById.js";
-
+// Controllers
+import getFavoriteByUid from "../controllers/favorite/getFavoriteByUid.js";
+import postFavorite from "../controllers/favorite/postFavorite.js";
+import deleteFavorite from "../controllers/favorite/deleteFavorite.js"
 
 const router = Router();
 
-//? Rutas .get
-router.get("/favorites", getFavorites);
-router.get("/favorites/:id", getFavoritesById)
+// Rutas GET
+router.get("/favorite/:userUid", getFavoriteByUid);
 
+// Ruta POST
+router.post("/favorite/:userUid", postFavorite);
 
-//? Ruta .post
-router.post("/favorites", postFavorites);
-
-//? Ruta .delete
-router.delete("/favorites/:favoritesId", deleteFavorites);
-
+// Ruta DELETE
+router.delete("/favorite/:userUid", deleteFavorite);
 
 export default router;

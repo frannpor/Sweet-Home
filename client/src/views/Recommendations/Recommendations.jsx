@@ -9,20 +9,14 @@ const Recommendations = () => {
     dispatch(getProducts());
   }, [dispatch]);
   const products = useSelector((state) => state.products);
-  const recommendedProductIds = [
-    "64a269277e82207ed2400e0a",
-    "64a269277e82207ed2400e0e",
-    "64a269277e82207ed2400e01",
-    "64a269277e82207ed2400dfd",
-    "64a269277e82207ed2400dfc",
-    "64a269277e82207ed2400de1",
-    "64a269277e82207ed2400e18",
-    "64a269277e82207ed2400e1d",
-    "64a269277e82207ed2400dd6",
-  ];
-  const recommendedProducts = products.filter((product) =>
-    recommendedProductIds.includes(product._id)
-  );
+
+  // Obtener 9 productos aleatorios
+  const getRandomProducts = (products, count) => {
+    const shuffledProducts = products.sort(() => 0.5 - Math.random());
+    return shuffledProducts.slice(0, count);
+  };
+
+  const recommendedProducts = getRandomProducts(products, 9);
 
   return (
     <div className="select-none">

@@ -39,9 +39,8 @@ export const PUT_REVIEW = "PUT_REVIEW"
 export const DELETE_REVIEW = "DELETE_REVIEW"
 
 //? Favorites
-export const ADD_TO_FAVORITES = "ADD_TO_FAVORITES"
-export const POST_FAVORITES = "POST_FAVORITES"
-export const DELETE_FROM_FAVORITES = "DELETE_FROM_FAVORITES"
+export const POST_FAVORITE = "POST_FAVORITE"
+export const DELETE_FAVORITE = "DELETE_FAVORITE"
 export const GET_FAVORITES = "GET_FAVORITES"
 
 //? Other Actions

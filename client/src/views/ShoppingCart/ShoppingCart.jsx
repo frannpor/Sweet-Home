@@ -7,12 +7,11 @@ import Select from "react-select";
 import { AiOutlineUser } from "react-icons/ai";
 import { BsTelephone, BsHouse } from "react-icons/bs";
 import { useAuth } from "../../context/authContex";
-import { useNavigate } from "react-router-dom";
 import { removefromCart, addtoCart, removeOneFromCart, postOrder, getUserByUid, removeAllFromCart } from "../../Redux/actions/actions";
 import { getTotalPrice, calculateTotal } from "../../utils/totalprice";
 import fedexLogo from "../../assets/image/Fedex-logo.jpeg";
 import dhlLogo from "../../assets/image/DHL-Logo.png";
-//import emailjs from "emailjs-com";
+import emailjs from "emailjs-com";
 
 import "./ShoppingCart.css";
 
@@ -56,6 +55,7 @@ const Shopping = () => {
     const property = event.target.name;
     const value = event.target.value;
     setInput({ ...input, [property]: value });
+    
 
     if (property === "name") nameValidate({ ...input, [property]: value });
     else if (property === "lastName") {
@@ -158,15 +158,16 @@ const Shopping = () => {
   const stateValidate = (input) => {
     if (!input.state) {
       setErrors({ ...errors, state: "*State is required." });
-    } else if (!/^[a-zA-Z]+$/.test(input.state)) {
+    } else if (!/^[a-zA-Z\s]+$/.test(input.state)) {
       setErrors({
         ...errors,
-        state: "*No numbers or special characters are allowed in this field.",
+        state: "*Only letters and spaces are allowed in this field.",
       });
     } else {
       setErrors({ ...errors, state: "" });
     }
   };
+  
 
   useEffect(() => {
     if (user) {
@@ -208,6 +209,19 @@ const Shopping = () => {
     } else if (allShoppingCart.length === 0) {
       toast.warning("Your shopping cart is empty.");
       return;
+    } else if (!input.name ) {
+      toast.warning("Unable to create order, missing data.");
+    } else if (!input.lastName ) {
+      toast.warning("Unable to create order, missing data.");
+    } else if (!input.email ) {
+      toast.warning("Unable to create order, missing data.");
+    } else if (!input.zip ) {
+      toast.warning("Unable to create order, missing data.");
+    }
+    else if (!input.state ) {
+      toast.warning("Unable to create order, missing data.");
+    } else if (!input.phone ) {
+      toast.warning("Unable to create order, missing data.");
     } else {
       const productCounts = allShoppingCart.reduce((counts, product) => {
         if (counts[product._id]) {
@@ -227,17 +241,12 @@ const Shopping = () => {
         ),
       };
       dispatch(removeAllFromCart());
-      //emailjs
-      //.sendForm("service_ndc6jsv", "template_hal256s", event.target, "_6alTseIIZ36HGhIC")
+      emailjs
+      .sendForm("service_ndc6jsv", "template_hal256s", event.target, "_6alTseIIZ36HGhIC")
       dispatch(postOrder(order));
     }
   }
 
-  const navigate = useNavigate();
-
-  const navigateToRegister = () => {
-    navigate("/register");
-  };
 
   const productCounts = allShoppingCart.reduce((counts, product) => {
     if (counts[product._id]) {
@@ -340,16 +349,6 @@ const Shopping = () => {
         <form onSubmit={handleSendOrder} action="">
           <div className="flex flex-wrap flex-col justify-center mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 mr:auto h-full">
             <p className="text-xl font-medium">Shipping</p>
-            <p className="text-gray-400 mt-2 text-m text-right">
-              Dont have an account?{" "}
-              <a
-                className="text-blue-600"
-                href="#"
-                onClick={navigateToRegister}
-              >
-                Register
-              </a>
-            </p>
             <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
