@@ -78,7 +78,7 @@ const Card = ({ _id, name, image, price, category }) => {
 
   const handleToggleFavorite = () => {
     if (!completeUser) {
-      toast.error("You need to log in to add a product to favorites");
+      toast.warning("You need to log in to add a product to favorites");
       return;
     }
     const isProductFavorite = completeUser.favorites?.includes(_id);
